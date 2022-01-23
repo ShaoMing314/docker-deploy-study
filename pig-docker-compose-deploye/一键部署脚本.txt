@@ -1,0 +1,19 @@
+参考网址：
+https://www.yuque.com/pig4cloud/pig/cixugs
+前提已经按前文安装了 Docker  DockerCompose 和 Java /maven / node 环境
+# 定义工作目录
+WORK=$(pwd)
+​
+# 下载服务代码
+cd $WORK && git clone https://gitee.com/log4j/pig.git
+​
+cd $WORK/pig && mvn clean install -T 4 && docker-compose build && docker-compose up -d
+​
+​
+# 下载前端代码
+cd $WORK && git clone https://gitee.com/log4j/pig-ui.git
+cd $WORK/pig-ui && cnpm install && npm run build:docker && cd $WORK/pig-ui/docker && docker-compose build && docker-compose up -d
+​
+​
+# 查看服务端启动日志
+cd $WORK/pig && docker-compose logs -f 

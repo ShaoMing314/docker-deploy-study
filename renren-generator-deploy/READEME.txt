@@ -1,0 +1,2 @@
+renren-genertor项目仓库地址
+https://gitee.com/shao_ming314/renren-generator.git

@@ -1,0 +1,38 @@
+version: '2'
+services:
+   rr-mysql:
+    container_name: rr-mysql
+    image: rr-mysql
+    build:
+      context: ./mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/logs
+      - ./mysql/data:/var/lib/mysql
+    command: [
+          'mysqld',
+          '--innodb-buffer-pool-size=80M',
+          '--character-set-server=utf8mb4',
+          '--collation-server=utf8mb4_unicode_ci',
+          '--default-time-zone=+8:00',
+          '--lower-case-table-names=1'
+         ]
+    environment:
+      MYSQL_DATABASE: 'renren'
+      MYSQL_ROOT_PASSWORD: root
+
+   renren:
+    container_name: renren
+    build:
+      context: ./renren
+      dockerfile: Dockerfile 
+    image: renren
+    ports:
+      - "80:80"
+    depends_on:
+      - rr-mysql
+    links:
+      - rr-mysql
+

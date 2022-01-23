@@ -1,0 +1,13 @@
+shell脚本的方式部署springboot项目
+
+需要放jar包文件到该目录
+
+
+重点说明
+jar包同目录下的application.yml文件优先级大于jar包的配置文件
+该目录下的 application.yml可以起作用
+
+
+
+数据库地址需要配置外网的数据库地址
+docker内部的mysql需要互通才能访问, 单独运行项目只能访问外网的数据库地址

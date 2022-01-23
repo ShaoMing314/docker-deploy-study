@@ -1,0 +1,46 @@
+基于network进行容器的互联
+1.docker新建网络，网络类型为 brigde
+  默认也是 brigde
+ 1.1 创建一个名称叫 my-net的网络
+  docker network create my-net
+ 1.2 查看网络是否创建
+  docker network ls
+ # 出现 my-net 类型为 bridge ， 表示 my-net 桥接网络已经创建好
+98f200ddb61f   bridge    bridge    local
+af3ad1bb8541   host      host      local
+c668855f964e   my-net    bridge    local
+924db311e24d   none      null      local
+
+2.运行mysql容器
+  # 说明：--network my-net 表示 mysql的网络使用的名称叫 my-net 的 bridge 类型的网络
+  # 如果别的容器使用了 my-net 网络，那么可以和 该mysql容器互联
+   docker run -p 3306:3306 --name mysql \
+  -v /mydata/mysql/log:/var/log/mysql \
+  -v /mydata/mysql/data:/var/lib/mysql \
+  -v /mydata/mysql/conf:/etc/mysql \
+  -e MYSQL_ROOT_PASSWORD=root  \
+  --network my-net \
+  -d mysql:5.7
+
+3.导入sql脚本
+  参考 docker-link的步骤
+  如果没有删除外部的数据卷挂载，可以启动容器
+  renren数据库已经创建过，所以可以直接使用
+
+4.构建镜像
+ 同 docker-link 的步骤
+
+5.maven构建项目
+  同 docker-link
+  # 说明 ： mysql数据库连接地址是mysql容器名称 mysql ， 因为两个容器基于my-net互联
+  # 数据库地址 为 url: jdbc:mysql://mysql:3306/renren
+  修改application.yml
+               
+6.基于镜像启动容器给
+说明：
+# 和docker-link 启动容器不一样，我们要指定 网络
+# --network my-net 表示 mysql的网络使用的名称叫 my-net 的 bridge 类型的网络
+# 此时mysql容器和renren容器两个容器可以互联，因为它们用的同一个网络 my-net
+docker run --name=renren -p80:80 -d --network my-net renren:v1
+
+其余同 docker-link

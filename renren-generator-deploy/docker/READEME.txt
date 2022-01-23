@@ -1,0 +1,16 @@
+docker 中 renren 容器需要连接外部的mysql
+
+1.修改application.yml
+修改mysql连接信息
+具体的appication.yml文件见同级目录，有该文件
+2.打包镜像
+docker run build -t renren .
+# 查看镜像是否打好
+docker images | grep renren
+3.启动容器
+# 命令说明 --name=renren 给容器起名字叫renren ， -p 指定端口  -d 后台启动 renren:latest 镜像的名称
+docker run --name=renren -p 80:80 -d renren:latest
+#查看容器的日志
+docker logs -f renren
+4.访问项目（80端口，80可以省略）
+直接舒服ip地址即可
