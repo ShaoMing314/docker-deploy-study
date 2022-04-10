@@ -4,7 +4,7 @@ docker 中 renren 容器需要连接外部的mysql
 修改mysql连接信息
 具体的appication.yml文件见同级目录，有该文件
 2.打包镜像
-docker run build -t renren .
+docker  build -t renren .
 # 查看镜像是否打好
 docker images | grep renren
 3.启动容器
